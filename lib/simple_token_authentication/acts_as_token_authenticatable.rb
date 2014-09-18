@@ -30,4 +30,5 @@ module SimpleTokenAuthentication
     end
   end
 end
-ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable
+ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? ActiveRecord::Base
+Mongoid::Document.send  :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? Mongoid::Document
