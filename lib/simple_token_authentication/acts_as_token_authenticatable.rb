@@ -1,6 +1,6 @@
 module SimpleTokenAuthentication
   module ActsAsTokenAuthenticatable
-    extend ::ActiveSupport::Concern
+    extend ActiveSupport::Concern
 
     # Please see https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
     # before editing this file, the discussion is very interesting.
@@ -31,13 +31,5 @@ module SimpleTokenAuthentication
     def token_generator
       @token_generator ||= TokenGenerator.new
     end
-
-    module ClassMethods
-      def acts_as_token_authenticatable(options = {})
-        before_save :ensure_authentication_token
-      end
-    end
   end
 end
-ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? ActiveRecord::Base
-Mongoid::Document.send  :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? Mongoid::Document
