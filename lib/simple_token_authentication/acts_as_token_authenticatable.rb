@@ -6,6 +6,7 @@ module SimpleTokenAuthentication
     # before editing this file, the discussion is very interesting.
 
     included do
+      before_save :ensure_authentication_token
       private :generate_authentication_token
     end
 
@@ -22,13 +23,5 @@ module SimpleTokenAuthentication
       end
     end
 
-    module ClassMethods
-      def acts_as_token_authenticatable(options = {})
-        include SimpleTokenAuthentication::ActsAsTokenAuthenticatable
-        before_save :ensure_authentication_token
-      end
-    end
   end
 end
-ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? ActiveRecord::Base
-Mongoid::Document.send  :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable if defined? Mongoid::Document

@@ -96,6 +96,7 @@ module SimpleTokenAuthentication
       def acts_as_token_authentication_handler_for(entity, options = {})
         options = { fallback_to_devise: true }.merge(options)
 
+        #entity.include SimpleTokenAuthentication::ActsAsTokenAuthenticatable unless entity.include? SimpleTokenAuthentication::ActsAsTokenAuthenticatable
         include SimpleTokenAuthentication::ActsAsTokenAuthenticationHandlerMethods
 
         define_acts_as_token_authentication_helpers_for(entity)
