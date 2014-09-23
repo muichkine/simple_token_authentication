@@ -6,9 +6,8 @@ module SimpleTokenAuthentication
     # before editing this file, the discussion is very interesting.
 
     included do
+      before_save :ensure_authentication_token
       private :generate_authentication_token
-      private :token_suitable?
-      private :token_generator
     end
 
     def ensure_authentication_token
@@ -24,12 +23,12 @@ module SimpleTokenAuthentication
       end
     end
 
-    def token_suitable?(token)
-      not self.class.exists?(authentication_token: token)
-    end
-
-    def token_generator
-      @token_generator ||= TokenGenerator.new
+    module ClassMethods
+      def acts_as_token_authenticatable(options = {})
+        include SimpleTokenAuthentication::ActsAsTokenAuthenticatable
+        before_save :ensure_authentication_token
+      end
     end
   end
 end
+ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable
