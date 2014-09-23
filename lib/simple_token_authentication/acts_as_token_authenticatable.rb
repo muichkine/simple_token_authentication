@@ -23,12 +23,13 @@ module SimpleTokenAuthentication
       end
     end
 
-    module ClassMethods
-      def acts_as_token_authenticatable(options = {})
-        include SimpleTokenAuthentication::ActsAsTokenAuthenticatable
-        before_save :ensure_authentication_token
-      end
+    def token_suitable?(token)
+      not self.class.exists?(authentication_token: token)
     end
+    def token_generator
+      @token_generator ||= SimpleTokenAuthentication::TokenGenerator.new
+    end
+
   end
+
 end
-ActiveRecord::Base.send :include, SimpleTokenAuthentication::ActsAsTokenAuthenticatable
