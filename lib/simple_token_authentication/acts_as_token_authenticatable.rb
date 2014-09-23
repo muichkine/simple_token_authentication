@@ -26,6 +26,7 @@ module SimpleTokenAuthentication
     def token_suitable?(token)
       not self.class.exists?(authentication_token: token)
     end
+
     def token_generator
       @token_generator ||= SimpleTokenAuthentication::TokenGenerator.new
     end
